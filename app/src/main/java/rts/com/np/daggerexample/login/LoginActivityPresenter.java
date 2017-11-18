@@ -58,4 +58,9 @@ public class LoginActivityPresenter implements LoginActivityMVP.Presenter{
       view.showUserNotAvailable();
     }
   }
+
+  @Override
+  public void saveUser() {
+
+  }
 }

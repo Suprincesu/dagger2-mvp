@@ -20,6 +20,8 @@ public interface LoginActivityMVP {
     void loginButtonClicked();
 
     void getCurrentUser();
+
+    void saveUser();
   }
 
   interface Model{

@@ -88,4 +88,22 @@ public class PresenterTests {
         Mockito.verify(mockView,Mockito.times(1)).getLastName();
         Mockito.verify(mockView,Mockito.times(2)).showInputError();
     }
+
+    @Test
+    public void shouldBeAbleToSaveAValidUser(){
+        Mockito.when(mockView.getFirstName()).thenReturn("Dana");
+        Mockito.when(mockView.getLastName()).thenReturn("Scully");
+
+        presenter.saveUser();
+
+        //Called two more times in the saveUser call.
+        Mockito.verify(mockView,Mockito.times(2)).getFirstName();
+        Mockito.verify(mockView,Mockito.times(2)).getLastName();
+
+        // Make sure the repository saved the user
+        Mockito.verify(mockLoginModel,Mockito.times(1)).createUser("Dana","Scully");
+
+        //Make sure that the view showed the user saved message
+        Mockito.verify(mockView,Mockito.times(1)).showUserSavedMessage();
+    }
 }

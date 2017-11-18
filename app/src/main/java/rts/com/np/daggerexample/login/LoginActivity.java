@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityMVP
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    ((App)getApplication()).getComponent().inject(this);
+//    ((App)getApplication()).getComponent().inject(this);
 
     firstName=(EditText) findViewById(R.id.firstname);
     lastName=(EditText)findViewById(R.id.lastname);

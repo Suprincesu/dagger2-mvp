@@ -1,5 +1,6 @@
 package rts.com.np.daggerexample.http;
 
+
 import java.io.IOException;
 
 import dagger.Module;
@@ -10,6 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
@@ -20,7 +22,7 @@ public class ApiModule {
     @Provides
     public OkHttpClient provideClient(){
         HttpLoggingInterceptor interceptor=new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
         Interceptor interceptor2=new Interceptor() {
             @Override
@@ -39,6 +41,7 @@ public class ApiModule {
                            .baseUrl(baseURL)
                            .client(client)
                            .addConverterFactory(GsonConverterFactory.create())
+                           .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                            .build();
     }
 

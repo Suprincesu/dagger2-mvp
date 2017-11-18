@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -26,17 +29,28 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:2.12.0"
 
+    //rest interactions
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
 
+    //Json Parsing
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.google.code.gson:gson:2.6.2'
 
+    //Okhttp
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    //http logging
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    //injection
     compile 'com.google.dagger:dagger:2.13'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+
+    //RxJava
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
 }

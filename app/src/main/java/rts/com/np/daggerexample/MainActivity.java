@@ -14,6 +14,12 @@ import rts.com.np.daggerexample.http.TwitchAPI;
 import rts.com.np.daggerexample.http.apimodel.Top;
 import rts.com.np.daggerexample.http.apimodel.Twitch;
 import rts.com.np.daggerexample.root.App;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,5 +52,68 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        twitchAPI.getTopGamesObservable()
+                .flatMap(new Func1<Twitch, Observable<Top>>() {
+            @Override
+            public Observable<Top> call(Twitch twitch) {
+                return Observable.from(twitch.getTop());
+            }
+        }).flatMap(new Func1<Top, Observable<Integer>>() {
+            @Override
+            public Observable<Integer> call(Top top) {
+                return Observable.just(top.getGame().getPopularity());
+            }
+        })
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(Integer s) {
+                System.out.println("From rx java: Popularity is " + s.toString());
+            }
+        });
+
+
+        twitchAPI.getTopGamesObservable()
+                .flatMap(new Func1<Twitch, Observable<Top>>() {
+                    @Override
+                    public Observable<Top> call(Twitch twitch) {
+                        return Observable.from(twitch.getTop());
+                    }
+                }).flatMap(new Func1<Top, Observable<String>>() {
+                @Override
+                public Observable<String> call(Top top) {
+                    return Observable.just(top.getGame().getName());
+                }
+                })
+                .filter(new Func1<String, Boolean>() {
+                @Override
+                public Boolean call(String s) {
+                    return s.startsWith("D");
+                }
+                })
+
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String s) {
+                System.out.println("From rx java with filter " + s);
+            }
+        });
     }
 }
